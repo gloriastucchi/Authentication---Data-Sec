@@ -1,0 +1,15 @@
+{
+    "json.schemas": [
+
+    ],
+    "java.project.referencedLibraries": [
+        "lib/jjwt-api-0.11.2.jar",
+        "lib/jjwt-impl-0.11.2.jar",
+        "lib/jjwt-jackson-0.11.2.jar"
+    ],
+    "java.project.sourcePaths": [
+        "src/server",
+        "src/client",
+        "lib"
+    ]
+}
