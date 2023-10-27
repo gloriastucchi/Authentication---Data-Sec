@@ -1,7 +1,6 @@
 import java.util.Map;
 import java.security.KeyPairGenerator;
 import java.rmi.RemoteException;
-import client.User;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -11,6 +10,8 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.Claims;
+import HashUtils;
 
 public class AuthenticationLogic {
     private Map<String, User> users;
@@ -28,7 +29,7 @@ public class AuthenticationLogic {
         // Return authentication token on success, null on failure
         if (users.containsKey(username) && users.get(username).getHashedPassword().equals(password)) {
             // Generate authentication token
-            String authToken = generateAuthToken();
+            String authToken = generateJwt(username);
 
             // Update user with the new token
             long timestamp = new Date().getTime();
@@ -36,7 +37,7 @@ public class AuthenticationLogic {
             // Store the token in the token map
             tokenMap.put(authToken, String.valueOf(timestamp));
 
-            return generateJwt(username);
+            return authToken;
         }
         return null;
     }
