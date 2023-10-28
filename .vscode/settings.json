@@ -8,8 +8,7 @@
         "lib/jjwt-jackson-0.11.2.jar"
     ],
     "java.project.sourcePaths": [
-        "src/server",
-        "src/client",
+        "src/compute",
         "lib"
     ]
 }

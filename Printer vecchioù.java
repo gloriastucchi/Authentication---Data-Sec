@@ -1,17 +1,23 @@
-import java.rmi.RemoteException;
 
-public class Printer {
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
+public class Printer extends UnicastRemoteObject implements PrinterService {
     private AuthenticationLogic authenticationLogic;
     private UserAuthentication userAuthentication;
     private TokenVerifier tokenVerifier;
 
-    public Printer(AuthenticationLogic authenticationLogic) {
+    public Printer(AuthenticationLogic authenticationLogic) throws RemoteException {
+        super();
         this.authenticationLogic = authenticationLogic;
         this.userAuthentication = new UserAuthentication(authenticationLogic);
         this.tokenVerifier = new TokenVerifier(authenticationLogic);
     }
 
-    public void print(String filename, String printer, String authToken) throws RemoteException {
+    public String print(String filename, String printer, String authToken) throws RemoteException {
+        return "From server: " + authToken;
+
         try {
             // If there is no valid token, prompt for authentication
             if (authToken == null || !tokenVerifier.validateToken(authToken)) {
