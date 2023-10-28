@@ -13,8 +13,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;
 //import HashUtil;
-    import java.security.MessageDigest;
-    import java.security.NoSuchAlgorithmException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class AuthenticationLogic {
     private Map<String, User> users;
@@ -68,7 +68,7 @@ public class AuthenticationLogic {
         Key key = keyGenerator.generateKey();
 
         // Converte la chiave segreta in una stringa Base64
-        String base64Key = Base64.getEncoder().encodeToString(key.getEncoded());//??????????????
+        String base64Key = Base64.getEncoder().encodeToString(key.getEncoded());// ??????????????
 
         // Calcola l'hash del nome utente e del timestamp corrente
         long timestamp = new Date().getTime();
