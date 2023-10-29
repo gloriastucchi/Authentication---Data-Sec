@@ -1,4 +1,3 @@
-package compute;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -23,7 +22,6 @@ public class test {
         Authentication a = new Authentication();
         System.out.println(a.authenticate("Gloria", "datasec"));
         System.out.println(a.authenticate("Leonardo", "bagigi47"));
-        a.generateJwt("Aaaaaa");
     }
 }
 

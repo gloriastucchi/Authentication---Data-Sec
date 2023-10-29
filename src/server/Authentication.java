@@ -1,4 +1,3 @@
-package compute;
 
 import java.security.MessageDigest;
 import java.util.Base64;
@@ -12,19 +11,22 @@ import java.security.SecureRandom;
 
 public class Authentication implements AuthenticationService {
     static private final TokenVerifier tok = new TokenVerifier();
+    static private final String databaseFile = "./src/server/database.txt";
 
-    public String authenticate(String username, String password)
-            throws RemoteException, NoSuchAlgorithmException {
+    public String authenticate(String username, String password) throws RemoteException, NoSuchAlgorithmException {
+        String storedUsername = null;
         String storedPassword = null;
 
-        try (BufferedReader br = new BufferedReader(new FileReader("./src/server/compute/hashedDatabase.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(databaseFile))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(" ");
-                if (parts[0].equals(username)) {
-                    storedPassword = parts[1];
+                storedUsername = parts[0];
+                storedPassword = parts[1];
+
+                if (storedUsername.equals(username) && storedPassword.equals(password)) {
                     String newToken = generateJwt(username);
-                    if (tok.storeToken(newToken, username)) // va sistematolo storing del token nella mappa
+                    if (tok.storeToken(newToken)) // va sistemato lo storing del token nella mappa
                         return newToken;
                     break;
                 }
