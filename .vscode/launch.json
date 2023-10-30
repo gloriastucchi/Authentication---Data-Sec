@@ -6,6 +6,27 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "Client",
+			"request": "launch",
+			"mainClass": "compute.Client",
+			"projectName": "Authentication---Data-Sec_e938c362"
+		},
+		{
+			"type": "java",
+			"name": "ApplicationServer",
+			"request": "launch",
+			"mainClass": "compute.ApplicationServer",
+			"projectName": "Authentication---Data-Sec_e938c362"
+		},
+		{
+			"type": "java",
+			"name": "Client",
+			"request": "launch",
+			"mainClass": "Client",
+			"projectName": "Authentication---Data-Sec_e938c362"
+		},
+		{
+			"type": "java",
 			"name": "test",
 			"request": "launch",
 			"mainClass": "test",

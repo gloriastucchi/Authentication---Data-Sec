@@ -1,3 +1,4 @@
+package compute;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
