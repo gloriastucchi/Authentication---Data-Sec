@@ -11,7 +11,7 @@ public class test {
         auth.authenticate("Gloria", "datasec");
         auth.authenticate("Leonardo", "bagigi47");
         auth.authenticate("Cesare", "guancialeLover");
-        String test = auth.authenticate("Riccardo", "Erpupone10");
+        auth.authenticate("Riccardo", "Erpupone10");
 
         System.out.println(auth.tokenMap.toString());
     }

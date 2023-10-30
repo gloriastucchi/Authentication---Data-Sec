@@ -9,11 +9,17 @@ public class Client {
     public static void main(String args[]) throws NotBoundException, MalformedURLException, RemoteException {
         try {
             PrinterService service = (PrinterService) Naming.lookup("rmi://localhost:5099/print");
-            String authToken = service.login("Cesare", "guancialeLover");
-            System.out.println(authToken);
 
+            // "Gloria", "datasec"
+            // "Leonardo", "bagigi47"
+            // "Cesare", "guancialeLover"
+            // "Riccardo", "Erpupone10"
+            String authToken = service.login("Cesare", "guancialeLover");
             boolean test = service.print("Hello World!", "HP-1", authToken);
-            System.out.println(test);
+            String[] queue = service.queue("HP-1", authToken);
+            for (String job : queue) {
+                System.out.println(job);
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

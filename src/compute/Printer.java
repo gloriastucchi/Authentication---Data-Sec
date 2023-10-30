@@ -3,6 +3,7 @@ package compute;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,33 +30,52 @@ public class Printer extends UnicastRemoteObject implements PrinterService {
 			return false;
 		}
 
+		List<String> queue = printQueue.get(printer);
+		if (queue == null) {
+			queue = new ArrayList<>();
+			printQueue.put(printer, queue);
+		}
+		queue.add(filename);
+
 		System.out.println("Print request received from authenticated user ");
-		System.out.println("Printing " + filename + " on printer " + printer);
+		System.out.println("Printing on " + printer + ": \"" + filename + "\"");
+
+		// Delay for 2 seconds
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		queue.remove(filename);
 
 		return true;
 	}
 
-	public void queue(String printer, String authToken) throws RemoteException {
+	public String[] queue(String printer, String authToken) throws RemoteException {
 		List<String> queue = printQueue.get(printer);
+		String[] queueResult = new String[queue.size()];
+
 		if (queue == null || queue.isEmpty()) {
-			System.out.println("Print queue for printer " + printer + " is empty.");
+			return new String[] { "Print queue for printer " + printer + " is empty." };
 		} else {
 			for (int i = 0; i < queue.size(); i++) {
-				System.out.println((i + 1) + " " + queue.get(i));
+				queueResult[i] = (i + 1) + ". " + queue.get(i);
 			}
+			return queueResult;
 		}
 	}
 
-	public void topQueue(String printer, int job) throws RemoteException {
+	public String topQueue(String printer, int job) throws RemoteException {
 		List<String> queue = printQueue.get(printer);
 		if (queue == null || queue.isEmpty()) {
-			System.out.println("Print queue for printer " + printer + " is empty.");
+			return "Print queue for printer " + printer + " is empty.";
 		} else if (job < 1 || job > queue.size()) {
-			System.out.println("Invalid job number.");
+			return "Invalid job number.";
 		} else {
 			String jobToMove = queue.remove(job - 1);
 			queue.add(0, jobToMove);
-			System.out.println("Moved job " + job + " to the top of the queue for printer " + printer + ".");
+			return "Moved job " + job + " to the top of the queue for printer " + printer + ".";
 		}
 	}
 
@@ -77,18 +97,16 @@ public class Printer extends UnicastRemoteObject implements PrinterService {
 		String status = printerStatus.get(printer);
 		if (status == null) {
 			System.out.println("Printer " + printer + " is not available.");
-		} else {
-			System.out.println("Printer " + printer + " is " + status + ".");
 		}
+		System.out.println("Printer " + printer + " is " + status + ".");
 	}
 
-	public void readConfig(String parameter) throws RemoteException {
+	public String readConfig(String parameter) throws RemoteException {
 		String value = printServerConfig.get(parameter);
 		if (value == null) {
-			System.out.println("Parameter " + parameter + " is not set.");
-		} else {
-			System.out.println("Value of parameter " + parameter + " is " + value + ".");
+			return "Parameter " + parameter + " is not set.";
 		}
+		return parameter + ": " + value;
 	}
 
 	public void setConfig(String parameter, String value) throws RemoteException {
