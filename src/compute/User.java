@@ -1,3 +1,9 @@
+package compute;
+
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.net.MalformedURLException;
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -6,6 +12,11 @@ public class User implements Serializable {
     // we anre not using privateand public keys for the cummincation, because we are
     // assuming that the connection is safe by default
     private String authToken;
+
+    public static void main(String args[]) throws NotBoundException, MalformedURLException, RemoteException {
+        PrinterService service = (PrinterService) Naming.lookup("rmi://localhost:5099/print");
+        System.out.println(service.print("Hello World!", "printer string", "123o98yqoiwdbf98q3y4gtr"));
+    }
 
     public User(String username, String password, String publicKey, String privateKey) {
         this.username = username;

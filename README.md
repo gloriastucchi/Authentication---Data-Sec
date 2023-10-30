@@ -88,24 +88,18 @@ We will assume a safe communication between client and server, hence we will sen
 ### Server
 
 ```
-IPrinter (printer interface)
-
-	GeneralPrintService (Printer Manager)
-		start()
-		stop()
-		restart()
-		status()
-		readConfig()
-		setConfig()
-
-	PrintService
-		print()
-		queue()
-		topQueue()
-		
+PrintService
+	start()
+	stop()
+	restart()
+	status()
+	readConfig()
+	setConfig()
+	print()
+	queue()
+	topQueue()
 
 AuthenticationService
-
 
 VerificationService
 ```
