@@ -6,6 +6,13 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "Printer",
+			"request": "launch",
+			"mainClass": "compute.Printer",
+			"projectName": "Authentication---Data-Sec_e938c362"
+		},
+		{
+			"type": "java",
 			"name": "Client",
 			"request": "launch",
 			"mainClass": "compute.Client",

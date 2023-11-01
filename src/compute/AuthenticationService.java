@@ -2,7 +2,6 @@ package compute;
 
 import java.io.IOException;
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 
 public interface AuthenticationService extends Remote {
@@ -17,4 +16,5 @@ public interface AuthenticationService extends Remote {
 
     public void storeJwt(String jwt) throws NoSuchAlgorithmException;
 
+    public void deleteTokens() throws IOException;
 }

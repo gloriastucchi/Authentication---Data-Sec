@@ -100,4 +100,10 @@ public class Authentication implements AuthenticationService {
             System.out.println(e.getMessage());
         }
     }
+
+    public void deleteTokens() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tokensFile));
+        writer.write("");
+        writer.close();
+    }
 }

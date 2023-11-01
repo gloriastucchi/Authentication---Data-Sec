@@ -14,7 +14,7 @@ public class User implements Serializable {
     private String authToken;
 
     public static void main(String args[]) throws NotBoundException, MalformedURLException, RemoteException {
-        PrinterService service = (PrinterService) Naming.lookup("rmi://localhost:5099/print");
+        ServerService service = (ServerService) Naming.lookup("rmi://localhost:5099/print");
         System.out.println(service.print("Hello World!", "printer string", "123o98yqoiwdbf98q3y4gtr"));
     }
 
