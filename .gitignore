@@ -1,2 +1,3 @@
 .DS_Store
-src/compute/data/tokens.txt
+src/data/tokens.txt
+src/log.txt

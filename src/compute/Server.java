@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.jsonwebtoken.lang.Arrays;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,10 +18,9 @@ import java.time.format.DateTimeFormatter;
 
 public class Server extends UnicastRemoteObject implements ServerService {
 
-	static private final String logFile = "log.txt";
+	static private final String logFile = "./src/log.txt";
 	private Authentication auth;
 	private TokenVerifier token;
-	private Printer printerService;
 	private Map<String, List<String>> printQueue;
 	private Map<String, String> printServerConfig;
 
@@ -35,7 +36,8 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 	// prints file filename on the specified printer
 	public String print(String filename, String printer, String authToken) throws RemoteException {
-		log("print: " + filename + ", " + printer + ", " + authToken);
+		log("print: " + filename + ", " + printer + " - jwt: " + authToken);
+
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
 		if (!SERVER_IS_ON)
@@ -56,7 +58,8 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	// lists the print queue for a given printer on the user's display in lines of
 	// the form <job number> <file name>
 	public String queue(String printer, String authToken) throws RemoteException {
-		log("queue: " + printer + ", " + authToken);
+		log("queue: " + printer + " - jwt:  " + authToken);
+
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
 		if (!SERVER_IS_ON)
@@ -77,7 +80,8 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 	// moves job to the top of the queue
 	public String topQueue(String printer, int job, String authToken) throws RemoteException {
-		log("topQueue: " + printer + ", " + job + ", " + authToken);
+		log("topQueue: " + printer + ", " + job + " - jwt:  " + authToken);
+
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
 		if (!SERVER_IS_ON)
@@ -97,7 +101,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 	// starts the print server
 	public String start(String authToken) throws RemoteException {
-		log("start: " + authToken);
+		log("start" + " - jwt: " + authToken);
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
 
@@ -115,7 +119,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 	// stops the print server
 	public String stop(String authToken) throws RemoteException {
-		log("stop: " + authToken);
+		log("stop" + " - jwt: " + authToken);
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
 
@@ -128,7 +132,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	// stops the print server, clears the print queue and starts the print server
 	// again
 	public String restart(String authToken) throws RemoteException {
-		log("restart: " + authToken);
+		log("restart" + " - jwt:  " + authToken);
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
 
@@ -139,7 +143,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 	// prints status of printer on the user's display
 	public String status(String printer, String authToken) throws RemoteException {
-		log("status: " + printer + ", " + authToken);
+		log("status: " + printer + " - jwt: " + authToken);
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
 		if (!SERVER_IS_ON)
@@ -156,7 +160,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 	// prints the value of the parameter on the print server to the user's display
 	public String readConfig(String parameter, String authToken) throws RemoteException {
-		log("readConfig: " + parameter + ", " + authToken);
+		log("readConfig: " + parameter + " - jwt: " + authToken);
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
 		if (!SERVER_IS_ON)
@@ -171,7 +175,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 	// sets the parameter on the print server to value
 	public String setConfig(String parameter, String value, String authToken) throws RemoteException {
-		log("setConfig: " + parameter + ", " + value);
+		log("setConfig: " + parameter + " - jwt: " + value);
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
 		if (!SERVER_IS_ON)
@@ -213,7 +217,6 @@ public class Server extends UnicastRemoteObject implements ServerService {
 				result.append("Printer " + printer + " has no jobs in the queue.\n");
 			} else {
 				String job = queue.remove(0);
-				// log("Removed job " + job + " from printer " + printer + " queue.");
 				result.append("Job " + job + " removed from printer " + printer + " queue.");
 			}
 		}
@@ -221,7 +224,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 		return result.toString();
 	}
 
-	public void log(String method) throws RemoteException {
+	public void log(String string) throws RemoteException {
 		try {
 			// Opens log file in append mode
 			BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true));
@@ -230,7 +233,8 @@ public class Server extends UnicastRemoteObject implements ServerService {
 			LocalDateTime now = LocalDateTime.now();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			String formattedDateTime = now.format(formatter);
-			writer.write(formattedDateTime + " - " + method + "\n");
+
+			writer.write(formattedDateTime + " - " + string + "\n");
 
 			// closes the file
 			writer.close();
@@ -238,5 +242,4 @@ public class Server extends UnicastRemoteObject implements ServerService {
 			System.err.println("Error writing the log file: " + e.getMessage());
 		}
 	}
-
 }

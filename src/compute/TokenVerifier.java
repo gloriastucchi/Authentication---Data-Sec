@@ -12,7 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class TokenVerifier implements TokenVerifierService {
-    static private final String tokensFile = "./src/compute/data/tokens.txt";
+    static private final String tokensFile = "./src/data/tokens.txt";
 
     public boolean validate(String authToken) {
         if (authToken == null || authToken.isEmpty()) {

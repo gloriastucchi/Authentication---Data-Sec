@@ -29,6 +29,5 @@ public interface ServerService extends Remote {
 
    public String removeFirstFromPrintingQueues() throws RemoteException;
 
-   public void log(String method) throws RemoteException;
-
+   public void log(String string) throws RemoteException;
 }

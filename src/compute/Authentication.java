@@ -14,8 +14,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 
 public class Authentication implements AuthenticationService {
-    static private final String databaseFile = "./src/compute/data/database.txt";
-    static private final String tokensFile = "./src/compute/data/tokens.txt";
+    static private final String databaseFile = "./src/data/database.txt";
+    static private final String tokensFile = "./src/data/tokens.txt";
     static private final Integer tokenExpirationTime = 10800000; // 3h in milliseconds
     public Map<String, String> tokenMap = new HashMap<>();
     private Map<String, String> userMap = new HashMap<>();
