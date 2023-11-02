@@ -109,3 +109,81 @@
 2023-11-01 18:43:16 - print: non me lo stampa, HP-2, LS72Tp8MQ97uCDnW1c7N1GOgVq8yg+Ot5G5++0O1tvU=
 2023-11-01 18:43:16 - queue: HP-1, LS72Tp8MQ97uCDnW1c7N1GOgVq8yg+Ot5G5++0O1tvU=
 2023-11-01 18:43:20 - queue: HP-1, LS72Tp8MQ97uCDnW1c7N1GOgVq8yg+Ot5G5++0O1tvU=
+2023-11-02 15:45:58 - start: W6lLSv/AhEdglkV8kV5PM4p45mDvSSv9oFCRCCjXqdw=
+2023-11-02 15:45:58 - print: ciao, HP-1, W6lLSv/AhEdglkV8kV5PM4p45mDvSSv9oFCRCCjXqdw=
+2023-11-02 15:45:58 - print: come va, HP-1, W6lLSv/AhEdglkV8kV5PM4p45mDvSSv9oFCRCCjXqdw=
+2023-11-02 15:45:58 - print: non me lo stampa, HP-2, W6lLSv/AhEdglkV8kV5PM4p45mDvSSv9oFCRCCjXqdw=
+2023-11-02 15:45:58 - queue: HP-1, W6lLSv/AhEdglkV8kV5PM4p45mDvSSv9oFCRCCjXqdw=
+2023-11-02 15:46:02 - queue: HP-1, W6lLSv/AhEdglkV8kV5PM4p45mDvSSv9oFCRCCjXqdw=
+2023-11-02 15:46:33 - start: N4oNSQ0d0vnugqMxtLC87hUDNDK72W5YNtqRDjxw+jQ=
+2023-11-02 15:46:33 - print: ciao, HP-1, N4oNSQ0d0vnugqMxtLC87hUDNDK72W5YNtqRDjxw+jQ=
+2023-11-02 15:46:33 - print: come va, HP-1, N4oNSQ0d0vnugqMxtLC87hUDNDK72W5YNtqRDjxw+jQ=
+2023-11-02 15:46:33 - print: non me lo stampa, HP-2, N4oNSQ0d0vnugqMxtLC87hUDNDK72W5YNtqRDjxw+jQ=
+2023-11-02 15:46:37 - queue: HP-1, N4oNSQ0d0vnugqMxtLC87hUDNDK72W5YNtqRDjxw+jQ=
+2023-11-02 15:46:55 - start: 4pRmtq/Y2ejpC09j1xFJyg6ylc7MsqO+6MC3NIHmO9A=
+2023-11-02 15:46:55 - print: ciao, HP-1, 4pRmtq/Y2ejpC09j1xFJyg6ylc7MsqO+6MC3NIHmO9A=
+2023-11-02 15:46:55 - print: come va, HP-1, 4pRmtq/Y2ejpC09j1xFJyg6ylc7MsqO+6MC3NIHmO9A=
+2023-11-02 15:46:55 - print: non me lo stampa, HP-2, 4pRmtq/Y2ejpC09j1xFJyg6ylc7MsqO+6MC3NIHmO9A=
+2023-11-02 15:46:55 - queue: HP-1, 4pRmtq/Y2ejpC09j1xFJyg6ylc7MsqO+6MC3NIHmO9A=
+2023-11-02 15:46:59 - queue: HP-1, 4pRmtq/Y2ejpC09j1xFJyg6ylc7MsqO+6MC3NIHmO9A=
+2023-11-02 15:47:41 - start: null
+2023-11-02 15:47:41 - print: ciao, HP-1, null
+2023-11-02 15:47:41 - print: come va, HP-1, null
+2023-11-02 15:47:41 - print: non me lo stampa, HP-2, null
+2023-11-02 15:47:41 - queue: HP-1, null
+2023-11-02 15:47:45 - queue: HP-1, null
+2023-11-02 15:49:47 - start: null
+2023-11-02 15:49:47 - print: ciao, HP-1, null
+2023-11-02 15:49:47 - print: come va, HP-1, null
+2023-11-02 15:49:47 - print: non me lo stampa, HP-2, null
+2023-11-02 15:49:47 - queue: HP-1, null
+2023-11-02 15:49:51 - queue: HP-1, null
+2023-11-02 15:49:58 - start: null
+2023-11-02 15:49:58 - print: ciao, HP-1, null
+2023-11-02 15:49:58 - print: come va, HP-1, null
+2023-11-02 15:49:58 - print: non me lo stampa, HP-2, null
+2023-11-02 15:49:58 - queue: HP-1, null
+2023-11-02 15:50:02 - queue: HP-1, null
+2023-11-02 15:50:15 - start: null
+2023-11-02 15:50:15 - print: ciao, HP-1, null
+2023-11-02 15:50:23 - start: null
+2023-11-02 15:50:23 - print: ciao, HP-1, null
+2023-11-02 15:50:32 - start: null
+2023-11-02 15:50:32 - print: ciao, HP-1, null
+2023-11-02 15:50:32 - print: come va, HP-1, null
+2023-11-02 15:50:38 - start: null
+2023-11-02 15:50:38 - print: ciao, HP-1, null
+2023-11-02 15:50:38 - print: come va, HP-1, null
+2023-11-02 15:50:38 - print: non me lo stampa, HP-2, null
+2023-11-02 15:50:47 - start: null
+2023-11-02 15:50:47 - print: ciao, HP-1, null
+2023-11-02 15:50:47 - print: come va, HP-1, null
+2023-11-02 15:50:47 - print: non me lo stampa, HP-2, null
+2023-11-02 15:50:47 - queue: HP-1, null
+2023-11-02 16:53:16 - start: null
+2023-11-02 16:53:16 - print: ciao, HP-1, null
+2023-11-02 16:53:16 - print: come va, HP-1, null
+2023-11-02 16:53:16 - print: non me lo stampa, HP-2, null
+2023-11-02 16:53:16 - queue: HP-1, null
+2023-11-02 16:54:38 - start: null
+2023-11-02 16:54:38 - print: ciao, HP-1, null
+2023-11-02 16:54:38 - print: come va, HP-1, null
+2023-11-02 16:54:38 - print: non me lo stampa, HP-2, null
+2023-11-02 16:55:05 - start: I+3ZBuVOs0/wlJSEvxCcxFtHvg/MSBW5kncinb54H9Q=
+2023-11-02 16:55:05 - print: ciao, HP-1, I+3ZBuVOs0/wlJSEvxCcxFtHvg/MSBW5kncinb54H9Q=
+2023-11-02 16:55:05 - print: come va, HP-1, I+3ZBuVOs0/wlJSEvxCcxFtHvg/MSBW5kncinb54H9Q=
+2023-11-02 16:55:05 - print: non me lo stampa, HP-2, I+3ZBuVOs0/wlJSEvxCcxFtHvg/MSBW5kncinb54H9Q=
+2023-11-02 16:59:33 - start: uYBPjZH0+5iKhjSpUi35BcDC88cObXn1OTO7sy8OqFU=
+2023-11-02 16:59:33 - print: ciao, HP-1, uYBPjZH0+5iKhjSpUi35BcDC88cObXn1OTO7sy8OqFU=
+2023-11-02 16:59:33 - print: come va, HP-1, uYBPjZH0+5iKhjSpUi35BcDC88cObXn1OTO7sy8OqFU=
+2023-11-02 16:59:33 - print: non me lo stampa, HP-2, uYBPjZH0+5iKhjSpUi35BcDC88cObXn1OTO7sy8OqFU=
+2023-11-02 16:59:51 - start: S/TWi/3/qn2eW8XBFKotQ8x4hrvDfUHFXu09IRZlUDg=
+2023-11-02 16:59:51 - print: ciao, HP-1, S/TWi/3/qn2eW8XBFKotQ8x4hrvDfUHFXu09IRZlUDg=
+2023-11-02 16:59:51 - print: come va, HP-1, S/TWi/3/qn2eW8XBFKotQ8x4hrvDfUHFXu09IRZlUDg=
+2023-11-02 16:59:51 - print: non me lo stampa, HP-2, S/TWi/3/qn2eW8XBFKotQ8x4hrvDfUHFXu09IRZlUDg=
+2023-11-02 16:59:51 - queue: HP-1, S/TWi/3/qn2eW8XBFKotQ8x4hrvDfUHFXu09IRZlUDg=
+2023-11-02 17:00:04 - start: 1vfRsc4mtg58cRaVKFGgF0J+rdE9c0QpQxAzd8ysI2s=
+2023-11-02 17:00:04 - print: ciao, HP-1, 1vfRsc4mtg58cRaVKFGgF0J+rdE9c0QpQxAzd8ysI2s=
+2023-11-02 17:00:04 - print: come va, HP-1, 1vfRsc4mtg58cRaVKFGgF0J+rdE9c0QpQxAzd8ysI2s=
+2023-11-02 17:00:04 - print: non me lo stampa, HP-2, 1vfRsc4mtg58cRaVKFGgF0J+rdE9c0QpQxAzd8ysI2s=
+2023-11-02 17:00:04 - queue: HP-1, null

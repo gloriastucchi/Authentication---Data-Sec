@@ -27,9 +27,10 @@ public class Client {
             service.print("ciao", "HP-1", authToken);
             service.print("come va", "HP-1", authToken);
             service.print("non me lo stampa", "HP-2", authToken);
+            // execute(service, "HP-1", authToken, "printQueue");
             printQueue(service, "HP-1", authToken);
-            Thread.sleep(4000);
-            printQueue(service, "HP-1", authToken);
+            // Thread.sleep(4000);
+            // printQueue(service, "HP-1", authToken);
 
         } catch (Exception e) {
             System.out.println(e);
@@ -59,7 +60,11 @@ public class Client {
 
     private static void printQueue(ServerService service, String printer, String authToken) throws RemoteException {
         // verifica messaggi di errore
+
         String queue = service.queue(printer, authToken);
-        System.out.println(queue);
+        if (queue != null && queue.equals("TOKEN_NOT_VALID")) {
+            System.out.println("Token not valid");
+        } else
+            System.out.println(queue);
     }
 }
