@@ -9,7 +9,7 @@ import java.net.MalformedURLException;
 public class Client {
     public static void main(String args[]) throws NotBoundException, MalformedURLException, RemoteException {
 
-        final String authToken;
+        String authToken = "";
 
         try {
             ServerService s = (ServerService) Naming.lookup("rmi://localhost:5099/print");
@@ -19,27 +19,38 @@ public class Client {
             // "Cesare", "guancialeLover"
             // "Riccardo", "Erpupone10"
 
-            authToken = s.login("Cesare", "guancialeLover");
+            execute(s, "print", "funny-meme.gif", "HP", authToken);
+
+            authToken = loginWithResponse(s, "Cesare", "guancialeLover");
+
+            execute(s, "print", "funny-meme.gif", "HP", authToken);
+
             execute(s, "start", authToken);
 
-            execute(s, "print", "file 1", "HP-1", authToken);
-            execute(s, "print", "file 2", "HP-1", authToken);
-            execute(s, "print", "file 3", "HP-1", authToken);
-            execute(s, "print", "file 1", "HP-2", authToken);
-            execute(s, "restart", authToken);
+            execute(s, "print", "funny-meme.gif", "HP", authToken);
+            execute(s, "print", "kitty.png", "HP", authToken);
+            execute(s, "print", "project review.pdf", "HP", authToken);
+            execute(s, "print", "project review.pdf", "Canon", authToken);
+            execute(s, "print", "poster.jpeg", "Canon", authToken);
+
+            execute(s, "topQueue", "HP", "2", authToken);
+
+            printConfig(s, "format", authToken);
 
             execute(s, "setConfig", "format", "A0", authToken);
-            printStatus(s, "HP-1", authToken);
+            printStatus(s, "HP", authToken);
             printConfig(s, "format", authToken);
-            // execute(s, "stop", authToken);
 
-            printQueue(s, "HP-1", authToken);
-            // Thread.sleep(4000);
-            printQueue(s, "HP-1", authToken);
+            printQueue(s, "HP", authToken);
+            printQueue(s, "Canon", authToken);
 
-            // printQueue(s, "HP-1", authToken);
+            Thread.sleep(4000); // wait some time for the printer to print (Printer.java needs to be running)
+
+            printQueue(s, "HP", authToken);
 
             execute(s, "restart", authToken);
+
+            printQueue(s, "HP", authToken);
 
         } catch (Exception e) {
             System.out.println(e);
@@ -50,11 +61,16 @@ public class Client {
             throws RemoteException, IllegalAccessException, InvocationTargetException, NoSuchMethodException,
             SecurityException {
         Class<?>[] argTypes = new Class[args.length];
+        String argsString = "";
         for (int i = 0; i < args.length; i++) {
             argTypes[i] = args[i].getClass();
+            if (i < args.length - 1)
+                argsString += args[i].toString() + ", ";
         }
         String result = (String) service.getClass().getMethod(methodName,
                 argTypes).invoke(service, args);
+
+        System.out.println("\n - " + methodName + ": " + argsString);
 
         if (result != null) {
             if (result.equals("TOKEN_NOT_VALID")) {
@@ -68,6 +84,18 @@ public class Client {
         }
 
         return result;
+    }
+
+    private static String loginWithResponse(ServerService service, String username, String password)
+            throws RemoteException {
+        try {
+            String token = service.login(username, password);
+            System.out.println("\nlogged in as \"" + username + "\"");
+            return token;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
     }
 
     private static void printQueue(ServerService service, String printer, String authToken) throws RemoteException {

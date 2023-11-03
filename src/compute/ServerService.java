@@ -9,7 +9,7 @@ public interface ServerService extends Remote {
 
    public String queue(String printer, String authToken) throws RemoteException;
 
-   public String topQueue(String printer, int job, String authToken) throws RemoteException;
+   public String topQueue(String printer, String job, String authToken) throws RemoteException;
 
    public String start(String authToken) throws RemoteException;
 

@@ -79,7 +79,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	}
 
 	// moves job to the top of the queue
-	public String topQueue(String printer, int job, String authToken) throws RemoteException {
+	public String topQueue(String printer, String job, String authToken) throws RemoteException {
 		log("topQueue: " + printer + ", " + job + " - jwt:  " + authToken);
 
 		if (tokenNotValid(authToken))
@@ -88,14 +88,18 @@ public class Server extends UnicastRemoteObject implements ServerService {
 			return "SERVER_IS_OFF";
 
 		List<String> queue = printQueue.get(printer);
+
 		if (queue == null || queue.isEmpty()) {
 			return "Print queue for printer " + printer + " is empty.";
-		} else if (job < 1 || job > queue.size()) {
-			return "Invalid job number.";
 		} else {
-			String jobToMove = queue.remove(job - 1);
+			int jobNum = Integer.parseInt(job);
+			if (jobNum < 1 || jobNum > queue.size()) {
+				return "Invalid job number.";
+			}
+
+			String jobToMove = queue.remove(jobNum - 1);
 			queue.add(0, jobToMove);
-			return "Moved job " + job + " to the top of the queue for printer " + printer + ".";
+			return "Moved job " + jobNum + " to the top of the queue for printer " + printer + ".";
 		}
 	}
 
@@ -217,7 +221,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 				result.append("Printer " + printer + " has no jobs in the queue.\n");
 			} else {
 				String job = queue.remove(0);
-				result.append("Job " + job + " removed from printer " + printer + " queue.");
+				result.append("Job " + job + " removed from printer " + printer + " queue.\n");
 			}
 		}
 
