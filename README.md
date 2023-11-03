@@ -88,7 +88,7 @@ We will assume a safe communication between client and server, hence we will sen
 ### Server
 
 ```
-PrintService
+implements these methods:
 	start()
 	stop()
 	restart()
@@ -98,8 +98,10 @@ PrintService
 	print()
 	queue()
 	topQueue()
+	--- added by us:
+	login()
+	log()
 
-AuthenticationService
 
 VerificationService
 ```
@@ -107,6 +109,28 @@ VerificationService
 ### Client
 
 ```
-
+connects to the server and executes methods
 ```
 
+### Printer
+
+```
+handles the printing queues for every printer managed by the server
+```
+
+
+### Authentication
+```
+handles user authentication on the server, token generation and storage
+```
+
+### TokenVerifier
+```
+verifies authentication tokens generated for open sessions
+```
+
+---
+
+## How to run
+
+run Server.java, then Printer.java, finally Client.java

@@ -192,6 +192,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 	/*----------------------------------- */
 
+	// authenticates the user and returns a token
 	public String login(String username, String password) throws RemoteException, NoSuchAlgorithmException {
 		String authToken = auth.authenticate(username, password);
 
@@ -204,6 +205,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 		return authToken;
 	}
 
+	// utility: checks if the token is valid
 	public boolean tokenNotValid(String authToken) throws RemoteException {
 		if (authToken == null || !token.validate(authToken)) {
 			System.out.println("Token validation failed: token not valid or expired.");
@@ -212,6 +214,8 @@ public class Server extends UnicastRemoteObject implements ServerService {
 		return false;
 	}
 
+	// this is called by Printer.java, when a printer finishes printing a job, the
+	// printer queue is updated
 	public String removeFirstFromPrintingQueues() throws RemoteException {
 		StringBuilder result = new StringBuilder();
 
@@ -228,6 +232,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 		return result.toString();
 	}
 
+	// logs the method call in the log file
 	public void log(String string) throws RemoteException {
 		try {
 			// Opens log file in append mode
