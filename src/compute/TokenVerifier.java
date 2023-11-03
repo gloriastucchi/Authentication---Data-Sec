@@ -29,10 +29,8 @@ public class TokenVerifier implements TokenVerifierService {
 
                     long currentTime = System.currentTimeMillis();
                     long expirationTime = Long.parseLong(expiration);
-                    if (currentTime > expirationTime) {
-                        // maybe delete token from file
-                        return false;
-                    }
+
+                    return currentTime < expirationTime;
                 }
 
             }
@@ -41,6 +39,6 @@ public class TokenVerifier implements TokenVerifierService {
             return false;
         }
 
-        return true;
+        return false;
     }
 }
