@@ -21,11 +21,14 @@ public class Client {
 
             execute(s, "print", "funny-meme.gif", "HP", authToken);
 
+            execute(s, "start", authToken);
+
+            authToken = loginWithResponse(s, "Cesare", "guanciale");
             authToken = loginWithResponse(s, "Cesare", "guancialeLover");
 
-            execute(s, "print", "funny-meme.gif", "HP", authToken);
-
             execute(s, "start", authToken);
+
+            execute(s, "print", "funny-meme.gif", "HP", authToken);
 
             execute(s, "print", "funny-meme.gif", "HP", authToken);
             execute(s, "print", "kitty.png", "HP", authToken);
@@ -74,7 +77,7 @@ public class Client {
 
         if (result != null) {
             if (result.equals("TOKEN_NOT_VALID")) {
-                System.out.println("Authentication on valid or expired. Please login again.");
+                System.out.println("Authentication not valid or expired. Please login again.");
                 return null;
             }
             if (result.equals("SERVER_IS_OFF")) {
@@ -90,7 +93,9 @@ public class Client {
             throws RemoteException {
         try {
             String token = service.login(username, password);
-            System.out.println("\nlogged in as \"" + username + "\"");
+            if (token != null) {
+                System.out.println("\nlogged in as \"" + username + "\"");
+            }
             return token;
         } catch (Exception e) {
             System.out.println(e);

@@ -38,10 +38,10 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	public String print(String filename, String printer, String authToken) throws RemoteException {
 		log("print: " + filename + ", " + printer + " - jwt: " + authToken);
 
-		if (tokenNotValid(authToken))
-			return "TOKEN_NOT_VALID";
 		if (!SERVER_IS_ON)
 			return "SERVER_IS_OFF";
+		if (tokenNotValid(authToken))
+			return "TOKEN_NOT_VALID";
 
 		List<String> queue = printQueue.get(printer);
 		if (queue == null) {
@@ -60,10 +60,10 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	public String queue(String printer, String authToken) throws RemoteException {
 		log("queue: " + printer + " - jwt:  " + authToken);
 
-		if (tokenNotValid(authToken))
-			return "TOKEN_NOT_VALID";
 		if (!SERVER_IS_ON)
 			return "SERVER_IS_OFF";
+		if (tokenNotValid(authToken))
+			return "TOKEN_NOT_VALID";
 
 		List<String> queue = printQueue.get(printer);
 		StringBuilder queueResult = new StringBuilder();
@@ -82,10 +82,10 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	public String topQueue(String printer, String job, String authToken) throws RemoteException {
 		log("topQueue: " + printer + ", " + job + " - jwt:  " + authToken);
 
-		if (tokenNotValid(authToken))
-			return "TOKEN_NOT_VALID";
 		if (!SERVER_IS_ON)
 			return "SERVER_IS_OFF";
+		if (tokenNotValid(authToken))
+			return "TOKEN_NOT_VALID";
 
 		List<String> queue = printQueue.get(printer);
 
@@ -112,12 +112,6 @@ public class Server extends UnicastRemoteObject implements ServerService {
 		SERVER_IS_ON = true;
 		System.out.println("Print server started.");
 
-		try {
-			auth.deleteTokens();
-		} catch (IOException e) {
-			System.err.println("Error deleting tokens: " + e.getMessage());
-		}
-
 		return null;
 	}
 
@@ -126,6 +120,12 @@ public class Server extends UnicastRemoteObject implements ServerService {
 		log("stop" + " - jwt: " + authToken);
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
+
+		try {
+			auth.deleteTokens();
+		} catch (IOException e) {
+			System.err.println("Error deleting tokens: " + e.getMessage());
+		}
 
 		SERVER_IS_ON = false;
 		System.out.println("Print server stopped.");
@@ -142,16 +142,17 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 		printQueue.clear();
 		System.out.println("Print queue cleared.");
+
 		return start(authToken);
 	}
 
 	// prints status of printer on the user's display
 	public String status(String printer, String authToken) throws RemoteException {
 		log("status: " + printer + " - jwt: " + authToken);
-		if (tokenNotValid(authToken))
-			return "TOKEN_NOT_VALID";
 		if (!SERVER_IS_ON)
 			return "SERVER_IS_OFF";
+		if (tokenNotValid(authToken))
+			return "TOKEN_NOT_VALID";
 
 		List<String> queue = printQueue.get(printer);
 		boolean printerIsWorking = queue != null && !queue.isEmpty();
@@ -165,10 +166,10 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	// prints the value of the parameter on the print server to the user's display
 	public String readConfig(String parameter, String authToken) throws RemoteException {
 		log("readConfig: " + parameter + " - jwt: " + authToken);
-		if (tokenNotValid(authToken))
-			return "TOKEN_NOT_VALID";
 		if (!SERVER_IS_ON)
 			return "SERVER_IS_OFF";
+		if (tokenNotValid(authToken))
+			return "TOKEN_NOT_VALID";
 
 		String value = printServerConfig.get(parameter);
 		if (value == null) {
@@ -180,10 +181,10 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	// sets the parameter on the print server to value
 	public String setConfig(String parameter, String value, String authToken) throws RemoteException {
 		log("setConfig: " + parameter + " - jwt: " + value);
-		if (tokenNotValid(authToken))
-			return "TOKEN_NOT_VALID";
 		if (!SERVER_IS_ON)
 			return "SERVER_IS_OFF";
+		if (tokenNotValid(authToken))
+			return "TOKEN_NOT_VALID";
 
 		printServerConfig.put(parameter, value);
 		System.out.println("Parameter " + parameter + " set to " + value + ".");
