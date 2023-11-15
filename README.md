@@ -51,16 +51,16 @@ For the purpose of this lab, it is acceptable to assume that secure communicatio
 ## Evaluation
 This lab is an integral part of the course, which means that the report will be evaluated and contribute to your final grade. All positive contributions count, so it is always better to hand-in something than nothing, even if you are not personally satisfied by your results. The report should document your work, as defined above, and follow the normal structure of areport, and we recommend that you use the following structure:
 
-## Introduction (max 1 page)
+1. Introduction (max 1 page)
 The introduction should provide a general introduction to the problem of authentication in client/server applications. It should define the scope of the answer, i.e. explicitly state what problems are considered, and outline the proposed solution. Finally, it should clearly state which of the identified goals are met by the developed software.
-Authentication (max 3 pages)
+2. Authentication (max 3 pages)
 This section should provide a short introduction to the specific problem of password based authentication in client/server systems and analyse the problems relating to password storage (on the server), password transport (between client and server) and password verification.
-Design and Implementation (max 3 pages including diagrams)
+3. Design and Implementation (max 3 pages including diagrams)
 A software design for the proposed solution must be presented and explained, i.e. why is this particular design chosen. The implementation of the designed authentication mechanism in the client server application must also be outlined in this section.
-Evaluation (max 2 pages)
+4. Evaluation (max 2 pages)
 This section should document that the requirements defined in Section 2 have been satisfied by the implementation. In particular, the evaluation should demonstrate that the user is always authenticated by the server before the service is invoked, e.g. the username and methodname may be written to a logfile every time a service is invoked.
 The evaluation should provide a simple summary of which of the requirements are satisfied and which are not.
-Conclusion (max 1 page)
+5. Conclusion (max 1 page)
 The conclusions should summarize the problems addressed in the report and clearly identify which of the requirements are satisfied and which are not (a summary of Section 4). The conclusions may also include a brief outline of future work.
 The full report should be limited to a maximum of 10 pages, excluding the source code. Source code for this lab should be included in a separate zip-archive.
 The report and source code should be handed in electronicallyon Inside as indicated by the Authentication Lab assignment.
@@ -72,7 +72,68 @@ The report and source code should be handed in electronicallyon Inside as indica
 
 ---
 
+
+# Access Control
+
+## Goal
+The purpose of this laboratory exercise is twofold: to provide hands on experience with the specification and enforcement of authorization policies and to provide an experimental framework for discussing access control policies. Students are assumed to have completed the Authentication lab.
+
+## Access Control Scenario
+Consider the print server scenario defined in the Authentication lab. The print server supports the following operations:
+
+print(String filename, String printer);   // prints file filename on the specified printer
+queue(String printer);   // lists the print queue on the user's display in lines of the form <job number>   <file name>
+topQueue(String printer, int job);   // moves job to the top of the queue
+start();   // starts the print server
+stop();   // stops the print server
+restart();   // stops the print server, clears the print queue and starts the print server again
+status(String printer);  // prints status of printer on the user's display
+readConfig(String parameter);   // prints the value of the parameter on the user's display
+setConfig(String parameter, String value);   // sets the parameter to value
+Not everybody working in the company has the same rights to access the print server. Alice is managing the print server, so she has the rights to perform all operations. Bob is the janitor who doubles as service technician, he has the rights to start, stop and restart the print server as well as inspect and modify the service parameters, i.e., invoke the status, readConfig and setConfig operations. Cecilia is a power user, who is allowed to print files and manage the print queue, i.e., use queue and topQueue as well as restart the print server when everything seems to be stuck. Finally, David, Erica, Fred and George are ordinary users who are only allowed to print files and display the print queue.
+
+## Lab Work
+The first task is to modify the prototype print server developed in the Authentication lab, so that it implements the necessary code to enforce the access control policy outlined above. This means that all registered users must be included in the password-file/-database defined in the Authentication lab. This first implementation should be based on an access control list for the print server, i.e. the print server is considered as a single object with the different methods as the possible operations. The access control list must be specified in an external policy file, or another form of external media, that is loaded when the print server starts, i.e. the policy must not be hard-coded into the program.
+
+The second task is to identify roles and define a role hierarchy and permissions for each role, so that the access control policy outlined above can be implemented. The third task is to develop a second prototype, based on the prototype developed in the authentication lab, which enforces the access control policy using Role Based Access Control, i.e. based on the role hierarchy and permissions defined in Task 2. The role hierarchy must be specified in one or more external policy files, or the same form of external media used in Task 1, that is/are loaded when the print server starts.
+
+Now consider the situation where Bob leaves the company and George takes over the responsibilities as service technician. At the same time, two new employees are hired: Henry, who should be granted the privileges of an ordinary user, and Ida who is a power user and should be given the same privileges as Cecilia.
+
+The final task is to implement the necessary changes in the access control policy specifications of the two prototypes developed in this lab, so that they reflect the organisational changes in the company. The experience gained from these modifications will allow you to compare the management support for the two policy enforcement mechanisms, i.e. the flexibility and facility with which organisational changes can be reflected in the access control policy. This comparison must highlight the strengths and weaknesses of each implementation and discuss the expressive power and the ease of management supported by the two policy specification abstractions, e.g., which organisational changes are easily captured in both implementations and which are more easily specified in one implementation than in the other. 
+
+## Evaluation
+This lab is a mandatory part of the course, which means that you have to hand in a small report, which will be evaluated and counts toward your final grade. The report should follow the normal structure of a report, and we recommend that you use the following structure:
+
+1. Introduction (max 1 page)
+The introduction should provide a general introduction to the problem of access control in client/server applications. It should define the scope of the answer, i.e. explicitly state what problems are considered, and outline the proposed solution. Finally, it should clearly state which of the identified goals are met by the developed software.
+2. Access Control Lists (max 2 pages)
+This section should provide a short overview of the implementation of the access control lists and the motivation behind all non-trivial design choices.
+Role Based Access Control (max 3 pages including diagrams)
+This section should document the results of the role mining process performed in in Task 2 and provide a short overview of the implementation of the role based access control mechanism implemented in Task 3 along with the motivation behind all non-trivial design choices. In particular, it must describe the syntax used to specify the RBAC policy.
+3. Evaluation (max 4 pages)
+This section should document that the prototype enforces the access control policies defined in this assignment; both ACL and RBAC and both before and after the changes.
+The evaluation should provide a simple summary of which of the requirements are satisfied and which are not.
+4. Discussion (max 2 page)
+This section documents the reflections and discussions of the final task.
+5. Conclusion (max 1 page)
+The conclusions should summarize the problems addressed in the report and clearly identify which of the requirements are satisfied and which are not (a summary of Section 4). The conclusions may also include a brief outline of future work.
+The laboratory work will be assessed in the same way as the other reports on the course (i.e., you are welcome to hand in the report in groups). The page numbers indicated above are indicative only, but the full report should be limited to a maximum of around 15 pages, excluding the source code. Source code for this lab should be included in a separate zip-archive. 
+
+The report and source code should be handed in electronically, using Campusnet, before 23.59 on Friday 1 December.
+
+## Useful Links
+[Role Based Access Control](http://csrc.nist.gov/groups/SNS/rbac/)
+
+---
+
+# How to run
+
+run Server.java, then Printer.java, finally Client.java
+
+
 # Approach
+
+## Authentication Lab
 
 We will assume a safe communication between client and server, hence we will send unencrypted data (like plain-text passwords) in the channel.
 
@@ -83,7 +144,22 @@ We will assume a safe communication between client and server, hence we will sen
 5. the client will use the received JWT to send every request (action)
 6. with every request the server will look in the JWS hash map, to see if the current time stamp is less or equal then the timestamp registered (aka. if the JWS is still valid). If the timestamp is higher the server will throw an error and will send a response "authentication expired" to the client. The client will need to send another authentication request to the server and generate another JWT.
 
-## Code structure
+## Access Control
+
+1. task 1: add new users to the database.txt file. Create an access control policy file (a users/operations matrix with users as rows and print server methods as columns, with 1/0 if the specific method is allowed or not fot that user). Implementation: load the file on server start, map the position of each method so that we can search later for a specific user and just look at the boolean in the location N (the same location of the method the user is trying to invoke). On user login, create a user hashmap with key: method name, value: 1/0. We can verify if the user has permission checking this hashmap upon every method call in the server. (build a new hashmap for every user, the server should be able to handle multiple connections from clients at the same time). We are gonna have a permissionMap { username: userMap: { method name: 1/0} }
+
+MENTION IN THE REPORT! Why we are not loading the entire policy file (as well as the user file) at runtime in a hashmap? because it doesn't scale if the database is very big, containing a lot of users.
+2. task 2: define role hierarchy for access control:
+	1. Manager (e.g., Alice): All operations: start(), stop(), restart(), status(), readConfig(), setConfig(), print(), queue(), topQueue()
+	2. Technician (e.g., Bob): start(), stop(), restart(), status(), readConfig(), setConfig()
+	3. PowerUser (e.g., Cecilia): print(), queue(), topQueue(), restart()
+	4. User (e.g., David, Erica, Fred, George): print(), queue()
+
+MENTION IN THE REPORT! In the report we should write those roles explicitly, showing the hierarchy maybe with a graph or something.
+3. task 3: create a role based access control policy file (a roles/operations matrix with roles as rows and print server methods as columns, similar to the one from task 1). The implementation and how to read this file is also similar.
+4. task 4: change the policy files manually (?)
+
+# Code structure
 
 ### Server
 
@@ -128,9 +204,3 @@ handles user authentication on the server, token generation and storage
 ```
 verifies authentication tokens generated for open sessions
 ```
-
----
-
-## How to run
-
-run Server.java, then Printer.java, finally Client.java
