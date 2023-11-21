@@ -1,12 +1,5 @@
 package compute;
 
-import java.rmi.RemoteException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -40,5 +33,29 @@ public class TokenVerifier implements TokenVerifierService {
         }
 
         return false;
+    }
+
+    public String getUsername(String authToken) {
+        if (authToken == null || authToken.isEmpty()) {
+            return null;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(tokensFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(" ");
+                String token = parts[0];
+                if (token.equals(authToken)) {
+                    String username = parts[2];
+                    return username;
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return null;
     }
 }

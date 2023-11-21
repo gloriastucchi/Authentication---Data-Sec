@@ -6,6 +6,27 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "ACLVerifier",
+			"request": "launch",
+			"mainClass": "compute.ACLVerifier",
+			"projectName": "Authentication---Data-Sec_1f224b58"
+		},
+		{
+			"type": "java",
+			"name": "Client",
+			"request": "launch",
+			"mainClass": "compute.Client",
+			"projectName": "Authentication---Data-Sec_1f224b58"
+		},
+		{
+			"type": "java",
+			"name": "ApplicationServer",
+			"request": "launch",
+			"mainClass": "compute.ApplicationServer",
+			"projectName": "Authentication---Data-Sec_1f224b58"
+		},
+		{
+			"type": "java",
 			"name": "Printer",
 			"request": "launch",
 			"mainClass": "compute.Printer",
