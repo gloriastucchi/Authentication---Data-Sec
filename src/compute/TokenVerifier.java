@@ -35,6 +35,13 @@ public class TokenVerifier implements TokenVerifierService {
         return false;
     }
 
+
+    /**
+     * this method is curently not used and probably broken
+     * Returns the username associated with the given authToken
+     * @param authToken
+     * @return
+     */
     public String getUsername(String authToken) {
         if (authToken == null || authToken.isEmpty()) {
             return null;

@@ -23,7 +23,7 @@ public class Client {
 
             execute(s, "print", "funny-meme.gif", "HP", authToken);
 
-            execute(s, "start", authToken);
+            // execute(s, "start", authToken);
 
             authToken = loginWithResponse(s, "Cesare", "guanciale");
             authToken = loginWithResponse(s, "Cesare", "guancialeLover");

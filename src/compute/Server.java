@@ -24,6 +24,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	private TokenVerifier token;
 	private Map<String, List<String>> printQueue;
 	private Map<String, String> printServerConfig;
+	private Map<String, Map<String, Boolean>> ACL = new HashMap<String, Map<String, Boolean>>();
 
 	private boolean SERVER_IS_ON = false; // false = OFF, true = ON
 
@@ -38,6 +39,14 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	// prints file filename on the specified printer
 	public String print(String filename, String printer, String authToken) throws RemoteException {
 		log("print: " + filename + ", " + printer + " - jwt: " + authToken);
+		// boolean canExecute = ACLVerifier.canExecuteFunction(username, "login");
+		boolean canExecute = canExecuteACLMap(authToken, "print");
+		if (!canExecute) {
+			System.out.println("user cannot execute print.");
+			return "USER_CANNOT_EXECUTE_PRINT";
+		} else {
+			System.out.println("user can execute print.");
+		}
 
 		if (!SERVER_IS_ON)
 			return "SERVER_IS_OFF";
@@ -197,13 +206,13 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	// authenticates the user and returns a token
 	public String login(String username, String password) throws RemoteException, NoSuchAlgorithmException {
 		boolean canExecute = ACLVerifier.canExecuteFunction("unauthenticated", "login");
-		
 		if (!canExecute) {
 			System.out.println("Login failed: user " + username + " does not have permission to login.");
 			return null;
 		}
+		Map<String,Boolean> userACL = ACLVerifier.permissionMap(username);
 		String authToken = auth.authenticate(username, password);
-
+		ACL.put(authToken, userACL);
 		if (authToken == null) {
 			System.out.println("Login failed: credentials not valid.");
 			return null;
@@ -215,12 +224,6 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 	// utility: checks if the token is valid
 	public boolean tokenNotValid(String authToken) throws RemoteException {
-		String username = token.getUsername(authToken);
-		boolean canExecute = ACLVerifier.canExecuteFunction(username, "login");
-		if (!canExecute) {
-			System.out.println("Token validation failed: token not valid or expired."+ username + " does not have permission to cehck token.");
-			return false;
-		}
 		if (authToken == null || !token.validate(authToken)) {
 			System.out.println("Token validation failed: token not valid or expired.");
 			return true;
@@ -264,5 +267,27 @@ public class Server extends UnicastRemoteObject implements ServerService {
 		} catch (IOException e) {
 			System.err.println("Error writing the log file: " + e.getMessage());
 		}
+	}
+
+	/**
+	 * Checks if the user has permission to execute the function
+	 * on the acl map
+	 * @param authToken
+	 * @param function
+	 * @return
+	 * @throws RemoteException
+	 */
+	public Boolean canExecuteACLMap(String authToken, String function) throws RemoteException {
+		Map<String, Boolean> userACL = ACL.get(authToken);
+		if (userACL == null) {
+			System.out.println("User not found in the ACL map.");
+			return false;
+		}
+		Boolean canExecute = userACL.get(function);
+		if (canExecute == null) {
+			System.out.println("Function not found in the ACL map.");
+			return false;
+		}
+		return canExecute;
 	}
 }
