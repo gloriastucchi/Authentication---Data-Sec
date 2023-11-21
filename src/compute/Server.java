@@ -218,7 +218,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 		String username = token.getUsername(authToken);
 		boolean canExecute = ACLVerifier.canExecuteFunction(username, "login");
 		if (!canExecute) {
-			System.out.println("Token validation failed: token not valid or expired."+ username + " does not have permission to cehck token.");
+			System.out.println("Token validation failed: token not valid or expired."+ username + " does not have permission to check token.");
 			return false;
 		}
 		if (authToken == null || !token.validate(authToken)) {
