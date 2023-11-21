@@ -23,10 +23,10 @@ public class Client {
 
             execute(s, "print", "funny-meme.gif", "HP", authToken);
 
-            // execute(s, "start", authToken);
+            execute(s, "start", authToken);
 
-            authToken = loginWithResponse(s, "Cesare", "guanciale");
-            authToken = loginWithResponse(s, "Cesare", "guancialeLover");
+            authToken = loginWithResponse(s, "Bob", "WrongPassword");
+            authToken = loginWithResponse(s, "Bob", "Bob");
 
             execute(s, "start", authToken);
 
@@ -78,12 +78,16 @@ public class Client {
         System.out.println("\n - " + methodName + ": " + argsString);
 
         if (result != null) {
+            if (result.equals("SERVER_IS_OFF")) {
+                System.out.println("The server is not running. Start it and try again.");
+                return null;
+            }
             if (result.equals("TOKEN_NOT_VALID")) {
                 System.out.println("Authentication not valid or expired. Please login again.");
                 return null;
             }
-            if (result.equals("SERVER_IS_OFF")) {
-                System.out.println("The server is not running. Start it and try again.");
+            if (result.equals("PERMISSION_DENIED")) {
+                System.out.println("Permission denied. You cannot execute this operation.");
                 return null;
             }
         }
@@ -97,6 +101,8 @@ public class Client {
             String token = service.login(username, password);
             if (token != null) {
                 System.out.println("\nlogged in as \"" + username + "\"");
+            } else {
+                System.out.println("\nlogin failed");
             }
             return token;
         } catch (Exception e) {

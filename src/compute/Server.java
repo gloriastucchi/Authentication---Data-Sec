@@ -8,14 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.jsonwebtoken.lang.Arrays;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import compute.ACLVerifier;
 
 public class Server extends UnicastRemoteObject implements ServerService {
 
@@ -24,9 +21,10 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	private TokenVerifier token;
 	private Map<String, List<String>> printQueue;
 	private Map<String, String> printServerConfig;
-	private Map<String, Map<String, Boolean>> ACL = new HashMap<String, Map<String, Boolean>>();
+	private Map<String, Map<String, Boolean>> ACL = new HashMap<String, Map<String, Boolean>>(); // Access Control List
 
 	private boolean SERVER_IS_ON = false; // false = OFF, true = ON
+	private Boolean POLICY_IS_RBAC = true; // true = Role Based AC (Role Based Access Control), false = User based AC
 
 	public Server() throws RemoteException {
 		super();
@@ -39,19 +37,13 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	// prints file filename on the specified printer
 	public String print(String filename, String printer, String authToken) throws RemoteException {
 		log("print: " + filename + ", " + printer + " - jwt: " + authToken);
-		// boolean canExecute = ACLVerifier.canExecuteFunction(username, "login");
-		boolean canExecute = canExecuteACLMap(authToken, "print");
-		if (!canExecute) {
-			System.out.println("user cannot execute print.");
-			return "USER_CANNOT_EXECUTE_PRINT";
-		} else {
-			System.out.println("user can execute print.");
-		}
 
 		if (!SERVER_IS_ON)
 			return "SERVER_IS_OFF";
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
+		if (!hasPermission(authToken))
+			return "PERMISSION_DENIED";
 
 		List<String> queue = printQueue.get(printer);
 		if (queue == null) {
@@ -74,6 +66,8 @@ public class Server extends UnicastRemoteObject implements ServerService {
 			return "SERVER_IS_OFF";
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
+		if (!hasPermission(authToken))
+			return "PERMISSION_DENIED";
 
 		List<String> queue = printQueue.get(printer);
 		StringBuilder queueResult = new StringBuilder();
@@ -96,6 +90,8 @@ public class Server extends UnicastRemoteObject implements ServerService {
 			return "SERVER_IS_OFF";
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
+		if (!hasPermission(authToken))
+			return "PERMISSION_DENIED";
 
 		List<String> queue = printQueue.get(printer);
 
@@ -118,6 +114,8 @@ public class Server extends UnicastRemoteObject implements ServerService {
 		log("start" + " - jwt: " + authToken);
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
+		if (!hasPermission(authToken))
+			return "PERMISSION_DENIED";
 
 		SERVER_IS_ON = true;
 		System.out.println("Print server started.");
@@ -130,11 +128,14 @@ public class Server extends UnicastRemoteObject implements ServerService {
 		log("stop" + " - jwt: " + authToken);
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
+		if (!hasPermission(authToken))
+			return "PERMISSION_DENIED";
 
 		try {
 			auth.deleteTokens();
+			ACL.clear();
 		} catch (IOException e) {
-			System.err.println("Error deleting tokens: " + e.getMessage());
+			System.err.println("Error deleting tokens and Access Control List: " + e.getMessage());
 		}
 
 		SERVER_IS_ON = false;
@@ -149,6 +150,8 @@ public class Server extends UnicastRemoteObject implements ServerService {
 		log("restart" + " - jwt:  " + authToken);
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
+		if (!hasPermission(authToken))
+			return "PERMISSION_DENIED";
 
 		printQueue.clear();
 		System.out.println("Print queue cleared.");
@@ -163,6 +166,8 @@ public class Server extends UnicastRemoteObject implements ServerService {
 			return "SERVER_IS_OFF";
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
+		if (!hasPermission(authToken))
+			return "PERMISSION_DENIED";
 
 		List<String> queue = printQueue.get(printer);
 		boolean printerIsWorking = queue != null && !queue.isEmpty();
@@ -180,6 +185,8 @@ public class Server extends UnicastRemoteObject implements ServerService {
 			return "SERVER_IS_OFF";
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
+		if (!hasPermission(authToken))
+			return "PERMISSION_DENIED";
 
 		String value = printServerConfig.get(parameter);
 		if (value == null) {
@@ -195,6 +202,8 @@ public class Server extends UnicastRemoteObject implements ServerService {
 			return "SERVER_IS_OFF";
 		if (tokenNotValid(authToken))
 			return "TOKEN_NOT_VALID";
+		if (!hasPermission(authToken))
+			return "PERMISSION_DENIED";
 
 		printServerConfig.put(parameter, value);
 		System.out.println("Parameter " + parameter + " set to " + value + ".");
@@ -205,20 +214,19 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 	// authenticates the user and returns a token
 	public String login(String username, String password) throws RemoteException, NoSuchAlgorithmException {
-		boolean canExecute = ACLVerifier.canExecuteFunction("unauthenticated", "login");
-		if (!canExecute) {
-			System.out.println("Login failed: user " + username + " does not have permission to login.");
-			return null;
-		}
-		Map<String,Boolean> userACL = ACLVerifier.permissionMap(username);
-		String authToken = auth.authenticate(username, password);
-		ACL.put(authToken, userACL);
+		String[] userData = auth.authenticate(username, password);
+		String authToken = userData[0];
+		String role = userData[1];
+
+		Map<String, Boolean> permissions = ACLVerifier.getPermissionMap(username, POLICY_IS_RBAC ? role : null);
+
 		if (authToken == null) {
 			System.out.println("Login failed: credentials not valid.");
 			return null;
 		}
 
-		System.out.println("Login successful. Token generated and stored.");
+		ACL.put(authToken, permissions);
+		System.out.println("Login successful. Token generated and stored." + ACL);
 		return authToken;
 	}
 
@@ -269,25 +277,19 @@ public class Server extends UnicastRemoteObject implements ServerService {
 		}
 	}
 
-	/**
-	 * Checks if the user has permission to execute the function
-	 * on the acl map
-	 * @param authToken
-	 * @param function
-	 * @return
-	 * @throws RemoteException
-	 */
-	public Boolean canExecuteACLMap(String authToken, String function) throws RemoteException {
+	// Checks if the user has permission to execute the function
+	public Boolean hasPermission(String authToken) throws RemoteException {
+		String method = Thread.currentThread().getStackTrace()[2].getMethodName(); // get parent method (caller) name
 		Map<String, Boolean> userACL = ACL.get(authToken);
 		if (userACL == null) {
-			System.out.println("User not found in the ACL map.");
+			System.out.println("Token not found in the ACL map.");
 			return false;
 		}
-		Boolean canExecute = userACL.get(function);
-		if (canExecute == null) {
-			System.out.println("Function not found in the ACL map.");
-			return false;
+		if (userACL.get(method)) {
+			return true;
 		}
-		return canExecute;
+
+		System.out.println("Permission denied on method \"" + method + "\" for token \"" + authToken + "\".");
+		return false;
 	}
 }

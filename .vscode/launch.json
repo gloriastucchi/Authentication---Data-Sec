@@ -6,6 +6,13 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "ACLVerifier",
+			"request": "launch",
+			"mainClass": "compute.ACLVerifier",
+			"projectName": "Authentication---Data-Sec_e938c362"
+		},
+		{
+			"type": "java",
 			"name": "Printer",
 			"request": "launch",
 			"mainClass": "compute.Printer",

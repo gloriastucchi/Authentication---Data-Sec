@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 public interface AuthenticationService extends Remote {
 
-    public String authenticate(String username, String password) throws NoSuchAlgorithmException;
+    public String[] authenticate(String username, String password) throws NoSuchAlgorithmException;
 
     public String hash(String stringToHash, String salt) throws NoSuchAlgorithmException;
 

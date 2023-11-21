@@ -1,0 +1,12 @@
+Username,start,stop,restart,status,readConfig,setConfig,print,queue,topQueue
+Gloria,1,1,1,1,1,1,1,1,1
+Riccardo,1,1,1,1,1,1,1,1,1
+Cesare,1,1,1,1,1,1,1,1,1
+Leonardo,1,1,1,1,1,1,1,1,1
+Alice,1,1,1,1,1,1,1,1,1
+Bob,1,1,1,1,1,1,0,0,0
+Cecilia,0,0,1,0,0,0,1,1,1
+David,0,0,0,0,0,0,1,1,0
+Erica,0,0,0,0,0,0,1,1,0
+Fred,0,0,0,0,0,0,1,1,0
+George,0,0,0,0,0,0,1,1,0
