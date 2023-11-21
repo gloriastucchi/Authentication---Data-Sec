@@ -14,10 +14,12 @@ public class Client {
         try {
             ServerService s = (ServerService) Naming.lookup("rmi://localhost:5099/print");
 
+            // Passwords:
             // "Gloria", "datasec"
             // "Leonardo", "bagigi47"
             // "Cesare", "guancialeLover"
             // "Riccardo", "Erpupone10"
+            // for every other user the password is the same as the username
 
             execute(s, "print", "funny-meme.gif", "HP", authToken);
 

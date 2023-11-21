@@ -35,8 +35,8 @@ public class Authentication implements AuthenticationService {
         }
 
         String[] parts = storedPassword.split(" ");
-        String storedHashedPassword = parts[0];
-        String storedSalt = parts[1];
+        String storedHashedPassword = parts[1];
+        String storedSalt = parts[2];
 
         String hashedPassword = hash(password, storedSalt);
 
@@ -55,7 +55,7 @@ public class Authentication implements AuthenticationService {
         while ((line = reader.readLine()) != null) {
             String[] parts = line.split(" ");
             String username = parts[0];
-            String userEntry = parts[1] + " " + parts[2];
+            String userEntry = parts[1] + " " + parts[2] + " " + parts[3]; // role + password + salt
             userMap.put(username, userEntry);
         }
         reader.close();
