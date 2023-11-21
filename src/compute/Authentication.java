@@ -28,13 +28,14 @@ public class Authentication implements AuthenticationService {
         }
     }
 
-    public String authenticate(String username, String password) throws NoSuchAlgorithmException {
+    public String[] authenticate(String username, String password) throws NoSuchAlgorithmException {
         String storedPassword = userMap.get(username);
         if (storedPassword == null) {
-            return null;
+            return new String[] { null, null };
         }
 
         String[] parts = storedPassword.split(" ");
+        String role = parts[0];
         String storedHashedPassword = parts[1];
         String storedSalt = parts[2];
 
@@ -43,10 +44,10 @@ public class Authentication implements AuthenticationService {
         if (storedHashedPassword.equals(hashedPassword)) {
             String newToken = generateJwt(username);
             storeJwt(newToken);
-            return newToken;
+            return new String[] { newToken, role };
         }
 
-        return null;
+        return new String[] { null, null };
     }
 
     private void loadDatabase() throws IOException {

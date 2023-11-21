@@ -1,0 +1,6 @@
+role,start,stop,restart,status,readConfig,setConfig,print,queue,topQueue
+Manager,1,1,1,1,1,1,1,1,1
+Technician,1,1,1,1,1,1,0,0,0
+PowerUser,0,0,1,0,0,0,1,1,1
+User,0,0,0,0,0,0,1,1,0
+

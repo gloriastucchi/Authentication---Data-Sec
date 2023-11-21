@@ -34,28 +34,4 @@ public class TokenVerifier implements TokenVerifierService {
 
         return false;
     }
-
-    public String getUsername(String authToken) {
-        if (authToken == null || authToken.isEmpty()) {
-            return null;
-        }
-
-        try (BufferedReader br = new BufferedReader(new FileReader(tokensFile))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(" ");
-                String token = parts[0];
-                if (token.equals(authToken)) {
-                    String username = parts[2];
-                    return username;
-                }
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        return null;
-    }
 }

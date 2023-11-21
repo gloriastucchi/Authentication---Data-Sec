@@ -128,7 +128,7 @@ The report and source code should be handed in electronically, using Campusnet, 
 
 # How to run
 
-run Server.java, then Printer.java, finally Client.java
+run ApplicationServer.java, then Printer.java, finally Client.java
 
 
 # Approach
