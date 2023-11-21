@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import compute.ACLVerifier;
 
 public class Server extends UnicastRemoteObject implements ServerService {
 
@@ -195,6 +196,12 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 	// authenticates the user and returns a token
 	public String login(String username, String password) throws RemoteException, NoSuchAlgorithmException {
+		boolean canExecute = ACLVerifier.canExecuteFunction("unauthenticated", "login");
+		
+		if (!canExecute) {
+			System.out.println("Login failed: user " + username + " does not have permission to login.");
+			return null;
+		}
 		String authToken = auth.authenticate(username, password);
 
 		if (authToken == null) {
@@ -208,6 +215,12 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 	// utility: checks if the token is valid
 	public boolean tokenNotValid(String authToken) throws RemoteException {
+		String username = token.getUsername(authToken);
+		boolean canExecute = ACLVerifier.canExecuteFunction(username, "login");
+		if (!canExecute) {
+			System.out.println("Token validation failed: token not valid or expired."+ username + " does not have permission to cehck token.");
+			return false;
+		}
 		if (authToken == null || !token.validate(authToken)) {
 			System.out.println("Token validation failed: token not valid or expired.");
 			return true;
