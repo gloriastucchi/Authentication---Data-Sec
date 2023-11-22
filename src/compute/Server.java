@@ -24,7 +24,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 	private Map<String, Map<String, Boolean>> ACL = new HashMap<String, Map<String, Boolean>>(); // Access Control List
 
 	private boolean SERVER_IS_ON = false; // false = OFF, true = ON
-	private Boolean POLICY_IS_RBAC = true; // true = Role Based AC (Role Based Access Control), false = User based AC
+	private Boolean POLICY_IS_RBAC = false; // true = Role Based AC (Role Based Access Control), false = User based AC
 
 	public Server() throws RemoteException {
 		super();
