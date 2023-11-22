@@ -157,7 +157,11 @@ MENTION IN THE REPORT! Why we are not loading the entire policy file (as well as
 
 MENTION IN THE REPORT! In the report we should write those roles explicitly, showing the hierarchy maybe with a graph or something.
 3. task 3: create a role based access control policy file (a roles/operations matrix with roles as rows and print server methods as columns, similar to the one from task 1). The implementation and how to read this file is also similar.
-4. task 4: change the policy files manually (?)
+4. task 4: change the policy files manually:
+   1. Bob deleted: UAC -> delete the row. RBAC/DB -> delete the row (maybe we want to keep it in the db for legacy reasons, but assign a new role like "Inactive").
+   2. George becomes Technician: UAC -> change values for George (need to look at technician role permissions and copy past in George row). RBAC/DB -> change role to George user from "User" to "Technician"
+   3. Create user Henry with role "User": UAC -> add row for Henry and add User permissions. RBAC/DB -> add new user to DB, generate salt and password
+   4. Create user Ida with same role as Cecilia (PowerUser): UAC -> copy past Cecilia and change the username to Ida. RBAC/DB -> add new user to DB, generate salt and password
 
 # Code structure
 
