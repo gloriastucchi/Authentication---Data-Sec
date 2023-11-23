@@ -212,7 +212,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 
 	/*----------------------------------- */
 
-	// authenticates the user and returns a token
+	// authenticates the user and returns token generated and user's role
 	public String login(String username, String password) throws RemoteException, NoSuchAlgorithmException {
 		String[] userData = auth.authenticate(username, password);
 		String authToken = userData[0];
@@ -226,7 +226,7 @@ public class Server extends UnicastRemoteObject implements ServerService {
 		}
 
 		ACL.put(authToken, permissions);
-		System.out.println("Login successful. Token generated and stored." + ACL);
+		System.out.println("Login successful. Token generated, stored and added to the ACL: " + ACL);
 		return authToken;
 	}
 
